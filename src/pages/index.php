@@ -73,7 +73,7 @@ function showDatabases($connect)
     <input type="submit" value="Enter">
 </form>
 
-<form action="POST">
+<form method="POST">
     <label for="addTable">Create Table</label>
     <input type="text" name="addTable" id="addTable">
     <label for="dbName">into</label>
