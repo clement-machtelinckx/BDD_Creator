@@ -1,0 +1,15 @@
+{
+    "name": "chong/bdd_creator",
+    "autoload": {
+        "psr-4": {
+            "Chong\\BddCreator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "clement-machtelinckx",
+            "email": "clement.machtelinckx@laplateforme.io"
+        }
+    ],
+    "require": {}
+}
