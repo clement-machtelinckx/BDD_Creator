@@ -1,19 +1,19 @@
 <?php return array(
     'root' => array(
-        'name' => 'chong/bdd_creator',
+        'name' => 'www/bdd_creator',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '3c0262369e7bc2a787d42093b28b0690b6ec687a',
+        'reference' => 'c6a706c2932f2ee6b93eb1dac79b35576107ef7b',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
-        'chong/bdd_creator' => array(
+        'www/bdd_creator' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '3c0262369e7bc2a787d42093b28b0690b6ec687a',
+            'reference' => 'c6a706c2932f2ee6b93eb1dac79b35576107ef7b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

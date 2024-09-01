@@ -19,6 +19,8 @@ if (isset($_POST['addTable']) && isset($_POST['dbName'])) {
     $db->createTable($tableName, $dbName);
 }
 
+
+
 ?>
 <!DOCTYPE html>
 
@@ -51,3 +53,6 @@ if (isset($_POST['addTable']) && isset($_POST['dbName'])) {
     ?> 
 </select>
 <input type="submit" value="Enter">
+
+
+

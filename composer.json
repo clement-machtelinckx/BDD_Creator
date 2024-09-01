@@ -1,8 +1,8 @@
 {
-    "name": "chong/bdd_creator",
+    "name": "www/bdd_creator",
     "autoload": {
         "psr-4": {
-            "Chong\\BddCreator\\": "src/"
+            "App\\": "src/"
         }
     },
     "authors": [

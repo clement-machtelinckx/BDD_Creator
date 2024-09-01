@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Chong\\BddCreator\\' => array($baseDir . '/src'),
+    'App\\' => array($baseDir . '/src'),
 );

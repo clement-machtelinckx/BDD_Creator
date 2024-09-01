@@ -1,5 +1,5 @@
 <?php
-
+namespace App;
 class Database
 {
     private $host;
@@ -30,18 +30,51 @@ class Database
             die("Connection failed: " . $e->getMessage());
         }
     }
-
     public function createDatabase($databaseName)
     {
         $sql = "CREATE DATABASE $databaseName";
-        if ($this->pdo->exec($sql)) {
-            echo "Database created successfully";
-        } else {
-            echo "Error creating database: " . $this->pdo->errorInfo();
+        try {
+            $this->pdo->exec($sql);
+            echo json_encode(["result" => "success", "message" => "Database created successfully"]);
+        } catch (PDOException $e) {
+            echo json_encode(["result" => "error", "message" => "Error creating database: " . $e->getMessage()]);
+        }
+    }
+    public function dropDatabase($databaseName)
+    {
+        $sql = "DROP DATABASE $databaseName";
+        try {
+            $this->pdo->exec($sql);
+            echo json_encode(["result" => "success", "message" => "Database dropped successfully"]);
+        } catch (PDOException $e) {
+            echo json_encode(["result" => "error", "message" => "Error dropping database: " . $e->getMessage()]);
+        }
+    }
+    public function useDatabase($databaseName)
+    {
+        $sql = "USE $databaseName";
+        try {
+            $this->pdo->exec($sql);
+            echo json_encode(["result" => "success", "message" => "Database connected successfully"]);
+        } catch (PDOException $e) {
+            echo json_encode(["result" => "error", "message" => "Error connecting database: " . $e->getMessage()]);
+        }
+    }
+    public function createTable($tableName, $columns)
+    {
+        $sql = "CREATE TABLE $tableName ($columns)";
+        try {
+            $this->pdo->exec($sql);
+            echo json_encode(["result" => "success", "message" => "Table created successfully"]);
+        } catch (PDOException $e) {
+            echo json_encode(["result" => "error", "message" => "Error creating table: " . $e->getMessage()]);
         }
     }
 
-    public function showDatabases()
+
+// _______________________________________________________________________________________________________________________
+
+    public function getCollectionDatabases()
     {
         $sql = "SHOW DATABASES";
         $stmt = $this->pdo->query($sql);
@@ -49,24 +82,34 @@ class Database
         return $databases;
     }
 
-    public function createTable($tableName, $dbName)
+    public function getDatabaseTables($dbName)
     {
-        $sql = "CREATE TABLE $dbName.$tableName (
-            id INT(6) AUTO_INCREMENT PRIMARY KEY,
-            firstname VARCHAR(30) NOT NULL,
-            lastname VARCHAR(30) NOT NULL,
-            email VARCHAR(50),
-            reg_date TIMESTAMP
-            )";
-        if ($this->pdo->exec($sql) == true) {
-            echo "Table created successfully";
+        $sql = "SHOW TABLES FROM $dbName";
+        $stmt = $this->pdo->query($sql);
+        $tables = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        return $tables;
+    }
+
+    public function getTableColumns($tableName, $dbName)
+    {
+        $sql = "SHOW COLUMNS FROM $dbName.$tableName";
+        $stmt = $this->pdo->query($sql);
+        $columns = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        return $columns;
+    }
+
+    public function insertIntoTable($tableName, $dbName, $data)
+    {
+        $columns = implode(', ', array_keys($data));
+        $values = implode("', '", array_values($data));
+        $sql = "INSERT INTO $dbName.$tableName ($columns) VALUES ('$values')";
+        if ($this->pdo->exec($sql)) {
+            echo "Data inserted successfully";
         } else {
-            $errorInfo = $this->pdo->errorInfo();
-            if ($errorInfo[0] !== '00000') {
-                echo "Error creating table: " . implode(' ', $errorInfo);
-            }
+            echo "Error inserting data: " . $this->pdo->errorInfo();
         }
     }
+
 
     public function modifyTable($tableName, $dbName, $columnName, $columnType)
     {
@@ -104,6 +147,6 @@ class Database
 
 // Usage:
 // host / username / password / dbname
-$db = new Database('localhost', 'root', '');
-$db->connect();
-$pdo = $db->getPdo();
+// $db = new Database('localhost', 'root', '');
+// $db->connect();
+// $pdo = $db->getPdo();
