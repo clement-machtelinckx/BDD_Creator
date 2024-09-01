@@ -63,6 +63,13 @@ class Database
             echo json_encode(["result" => "error", "message" => "Error connecting database: " . $e->getMessage()]);
         }
     }
+    public function getDatabase($databaseName)
+    {
+        $sql = "SHOW DATABASES LIKE '$databaseName'";
+        $stmt = $this->pdo->query($sql);
+        $database = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $database;
+    }
     public function createTable($tableName, $columns)
     {
         $sql = "CREATE TABLE $tableName ($columns)";
@@ -72,6 +79,22 @@ class Database
         } catch (PDOException $e) {
             echo json_encode(["result" => "error", "message" => "Error creating table: " . $e->getMessage()]);
         }
+    }
+    public function getTableCollection(){
+        $sql = "SHOW TABLES";
+        $stmt = $this->pdo->query($sql);
+        $tables = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        for ($i=0; $i < count($tables); $i++) { 
+            $sql = "SHOW COLUMNS FROM $tables[$i]";
+            $stmt = $this->pdo->query($sql);
+            $columns = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            $tables[$i] = [
+                "tableName" => $tables[$i],
+                "columns" => $columns
+            ];
+        }
+        return $tables;
     }
 
 
