@@ -1,5 +1,9 @@
 <?php
 
+require_once '../../../../vendor/autoload.php';
+include '../../../conf.php';
+use App\Class\Database;
+
 // route : http://localhost/BDD_Creator/src/routes/POST/table/createTable.php
 // method : POST
 // body : raw : JSON
@@ -8,8 +12,7 @@
 //     "tableName": "users",
 //     "columns": "id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, firstname VARCHAR(30) NOT NULL, lastname VARCHAR(30) NOT NULL, email VARCHAR(50), reg_date TIMESTAMP"
 // }
-include '../../../class/Database.php';
-include '../../../conf.php';
+
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');

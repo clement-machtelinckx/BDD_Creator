@@ -1,18 +1,13 @@
 <?php
 
-use App\Database;
-
-// require '../../../../vendor/autoload.php';
 require_once '../../../../vendor/autoload.php';
+include '../../../conf.php';
+use App\Class\Database;
 // route : http://localhost/BDD_Creator/src/routes/DELETE/database/dropDatabase.php
 // method : DELETE
 // {
 //     "databaseName": "testjson23"
 // }
-
-
-include '../../../../conf.php';
-
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');

@@ -1,5 +1,8 @@
 <?php
 
+require_once '../../../../vendor/autoload.php';
+include '../../../conf.php';
+use App\Class\Database;
 
 // route : http://localhost/BDD_Creator/src/routes/POST/database/createDatabase.php
 // method : POST
@@ -8,8 +11,7 @@
 //     "databaseName": "test"
 // }
 
-include '../../../class/Database.php';
-include '../../../conf.php';
+
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');

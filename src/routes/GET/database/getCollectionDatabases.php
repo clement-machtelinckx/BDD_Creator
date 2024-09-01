@@ -1,12 +1,10 @@
 <?php
-
-// route : http://localhost/BDD_Creator/src/routes/GET/getCollectionDatabases.php
-// method : GET
-
-
-
-include '../../../class/Database.php';
+require_once '../../../../vendor/autoload.php';
 include '../../../conf.php';
+use App\Class\Database;
+
+// route : http://localhost/BDD_Creator/src/routes/GET/database/getCollectionDatabases.php
+// method : GET
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
