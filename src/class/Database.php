@@ -80,6 +80,44 @@ class Database
             echo json_encode(["result" => "error", "message" => "Error creating table: " . $e->getMessage()]);
         }
     }
+    public function dropTable($tableName)
+    {
+        $sql = "DROP TABLE $tableName";
+        try {
+            $this->pdo->exec($sql);
+            echo json_encode(["result" => "success", "message" => "Table dropped successfully"]);
+        } catch (PDOException $e) {
+            echo json_encode(["result" => "error", "message" => "Error dropping table: " . $e->getMessage()]);
+        }
+    }
+    public function getTableColumns($tableName)
+    {
+        $sql = "SHOW COLUMNS FROM $tableName";
+        $stmt = $this->pdo->query($sql);
+        $columns = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $columns;
+    }
+    public function getTableData($tableName)
+    {
+        $sql = "SELECT * FROM $tableName";
+        $stmt = $this->pdo->query($sql);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
+    }
+
+
+    public function addColumn ($tableName, $columnName, $columnType) {
+        $sql = "ALTER TABLE $tableName ADD COLUMN $columnName $columnType";
+        try {
+            $this->pdo->exec($sql);
+            echo json_encode(["result" => "success", "message" => "Column added successfully"]);
+        } catch (PDOException $e) {
+            echo json_encode(["result" => "error", "message" => "Error adding column: " . $e->getMessage()]);
+        }
+    }
+
+
+
     public function getTableCollection(){
         $sql = "SHOW TABLES";
         $stmt = $this->pdo->query($sql);
@@ -116,13 +154,7 @@ class Database
         return $tables;
     }
 
-    public function getTableColumns($tableName, $dbName)
-    {
-        $sql = "SHOW COLUMNS FROM $dbName.$tableName";
-        $stmt = $this->pdo->query($sql);
-        $columns = $stmt->fetchAll(PDO::FETCH_COLUMN);
-        return $columns;
-    }
+
 
     public function insertIntoTable($tableName, $dbName, $data)
     {
@@ -150,18 +182,7 @@ class Database
         }
     }
 
-    public function addColumn($tableName, $dbName, $columnName, $columnType)
-    {
-        $sql = "ALTER TABLE $dbName.$tableName ADD COLUMN $columnName $columnType";
-        if ($this->pdo->exec($sql)) {
-            echo "Column added successfully";
-        } else {
-            $errorInfo = $this->pdo->errorInfo();
-            if ($errorInfo[0] !== '00000') {
-                echo "Error adding column: " . implode(' ', $errorInfo);
-            }
-        }
-    }
+
     
     
 
