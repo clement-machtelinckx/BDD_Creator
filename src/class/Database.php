@@ -104,8 +104,6 @@ class Database
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
-
-
     public function addColumn ($tableName, $columnName, $columnType) {
         $sql = "ALTER TABLE $tableName ADD COLUMN $columnName $columnType";
         try {
@@ -115,10 +113,23 @@ class Database
             echo json_encode(["result" => "error", "message" => "Error adding column: " . $e->getMessage()]);
         }
     }
-
-
-
-    public function getTableCollection(){
+    public function dropColumn ($tableName, $columnName) {
+        $sql = "ALTER TABLE $tableName DROP COLUMN $columnName";
+        try {
+            $this->pdo->exec($sql);
+            echo json_encode(["result" => "success", "message" => "Column dropped successfully"]);
+        } catch (PDOException $e) {
+            echo json_encode(["result" => "error", "message" => "Error dropping column: " . $e->getMessage()]);
+        }
+    }
+    public function getTableCollection()
+    {
+        $sql = "SHOW TABLES";
+        $stmt = $this->pdo->query($sql);
+        $tables = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        return $tables;
+    }
+    public function getTableCollectionAndColumns(){
         $sql = "SHOW TABLES";
         $stmt = $this->pdo->query($sql);
         $tables = $stmt->fetchAll(PDO::FETCH_COLUMN);
@@ -135,6 +146,36 @@ class Database
         return $tables;
     }
 
+    public function insertIntoTable($tableName, $data)
+    {
+        $columns = implode(', ', array_keys($data[0]));
+        $values = [];
+    
+        foreach ($data as $row) {
+            $escapedValues = array_map([$this->pdo, 'quote'], $row);
+            $values[] = '(' . implode(', ', $escapedValues) . ')';
+        }
+    
+        $sql = "INSERT INTO $tableName ($columns) VALUES " . implode(', ', $values);
+    
+        try {
+            $this->pdo->exec($sql);
+            echo json_encode(["result" => "success", "message" => "Data inserted successfully"]);
+        } catch (PDOException $e) {
+            echo json_encode(["result" => "error", "message" => "Error inserting data: " . $e->getMessage()]);
+        }
+    }
+
+    public function dropRow($tableName, $columnName, $value)
+    {
+        $sql = "DELETE FROM $tableName WHERE $columnName = '$value'";
+        try {
+            $this->pdo->exec($sql);
+            echo json_encode(["result" => "success", "message" => "Row deleted successfully"]);
+        } catch (PDOException $e) {
+            echo json_encode(["result" => "error", "message" => "Error deleting row: " . $e->getMessage()]);
+        }
+    }
 
 // _______________________________________________________________________________________________________________________
 
@@ -156,11 +197,11 @@ class Database
 
 
 
-    public function insertIntoTable($tableName, $dbName, $data)
+    public function insertIntoTable2($tableName, $dbName, $data)
     {
         $columns = implode(', ', array_keys($data));
         $values = implode("', '", array_values($data));
-        $sql = "INSERT INTO $dbName.$tableName ($columns) VALUES ('$values')";
+        $sql = "INSERT INTO $tableName ($columns) VALUES ('$values')";
         if ($this->pdo->exec($sql)) {
             echo "Data inserted successfully";
         } else {

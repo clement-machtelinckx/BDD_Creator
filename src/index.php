@@ -3,23 +3,22 @@
 require_once '../vendor/autoload.php';
 require_once 'conf.php';
 use App\Class\Database;
-use App\Class\User;
 
-$user = new User();
+
 $db = new Database($HOST, $USERNAME, $PASSWORD);
 $db->connect();
-$bdd = $db->getDatabase('dbClement');
-var_dump($bdd) ;
-$db->useDatabase('dbClement');
-$table = $db->getTableCollection();
-var_dump($table);
+$bdd = $db->getDatabase('aicha');
+var_dump($bdd);
+$db->useDatabase('testjson');
 
-$tableColums = $db->getTableColumns('user');
+$tableCollection = $db->getTableCollection();
+var_dump($tableCollection);
+// $db->addColumn('testtabldzde222', 'testDrop', 'VARCHAR(255)');
+// $db->dropColumn('testtabldzde222', 'testDrop');
 
-var_dump($tableColums); 
+$db->insertIntoTable('testtabldzde222', ['id'=> 37, 'name' => 'clement'] );
 
-$tableData = $db->getTableData('user');
-var_dump($tableData);
+// $db->dropRow('testtabldzde222', "id", 65);
 
 
-$addTable = $db->addColumn('user', 'test', 'VARCHAR');
+
