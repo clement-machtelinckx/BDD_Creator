@@ -58,7 +58,7 @@ class Database
         $sql = "USE $databaseName";
         try {
             $this->pdo->exec($sql);
-            echo json_encode(["result" => "success", "message" => "Database connected successfully"]);
+            // echo json_encode(["result" => "success", "message" => "Database connected successfully"]);
         } catch (PDOException $e) {
             echo json_encode(["result" => "error", "message" => "Error connecting database: " . $e->getMessage()]);
         }
