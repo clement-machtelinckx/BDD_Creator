@@ -16,7 +16,6 @@ var_dump($tableCollection);
 // $db->addColumn('testtabldzde222', 'testDrop', 'VARCHAR(255)');
 // $db->dropColumn('testtabldzde222', 'testDrop');
 
-$db->insertIntoTable('testtabldzde222', ['id'=> 37, 'name' => 'clement'] );
 
 // $db->dropRow('testtabldzde222', "id", 65);
 

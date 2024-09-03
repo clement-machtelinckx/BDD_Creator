@@ -67,7 +67,7 @@ class Database
     {
         $sql = "SHOW DATABASES LIKE '$databaseName'";
         $stmt = $this->pdo->query($sql);
-        $database = $stmt->fetch(PDO::FETCH_ASSOC);
+        $database = $stmt->fetch();
         return $database;
     }
     public function createTable($tableName, $columns)
@@ -146,7 +146,7 @@ class Database
         return $tables;
     }
 
-    public function insertIntoTable($tableName, $data)
+    public function insertRow($tableName, $data)
     {
         $columns = implode(', ', array_keys($data[0]));
         $values = [];

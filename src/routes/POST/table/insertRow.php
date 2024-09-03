@@ -5,7 +5,7 @@ include '../../../conf.php';
 use App\Class\Database;
 
 
-// route : http://localhost/BDD_Creator/src/routes/POST/table/insertIntoTable.php
+// route : http://localhost/BDD_Creator/src/routes/POST/table/insertRow.php
 // method : POST
 // {
 //     "databaseName": "testjson",
@@ -29,5 +29,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db = new Database($HOST, $USERNAME, $PASSWORD);
     $db->connect();
     $db->useDatabase($data['databaseName']);
-    $db->insertIntoTable($data['tableName'], $data['values']);
+    $db->insertRow($data['tableName'], $data['values']);
 }
