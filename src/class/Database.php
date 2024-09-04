@@ -165,6 +165,21 @@ class Database
             echo json_encode(["result" => "error", "message" => "Error inserting data: " . $e->getMessage()]);
         }
     }
+    public function getRow($tableName, $columnName, $value)
+    {
+        $sql = "SELECT * FROM $tableName WHERE $columnName = '$value'";
+        $stmt = $this->pdo->query($sql);
+        $row = $stmt->fetch();
+        return $row;
+    }
+
+    public function getCollectionRow($tableName)
+    {
+        $sql = "SELECT * FROM $tableName";
+        $stmt = $this->pdo->query($sql);
+        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $row;
+    }
 
     public function dropRow($tableName, $columnName, $value)
     {
@@ -174,6 +189,54 @@ class Database
             echo json_encode(["result" => "success", "message" => "Row deleted successfully"]);
         } catch (PDOException $e) {
             echo json_encode(["result" => "error", "message" => "Error deleting row: " . $e->getMessage()]);
+        }
+    }
+
+    public function updateRow($tableName, $columnName, $value, $data)
+    {
+        $set = [];
+        foreach ($data as $key => $val) {
+            $set[] = "$key = '$val'";
+        }
+        $set = implode(', ', $set);
+        $sql = "UPDATE $tableName SET $set WHERE $columnName = '$value'";
+        try {
+            $this->pdo->exec($sql);
+            echo json_encode(["result" => "success", "message" => "Row updated successfully"]);
+        } catch (PDOException $e) {
+            echo json_encode(["result" => "error", "message" => "Error updating row: " . $e->getMessage()]);
+        }
+    }
+
+    public function updateColumn($tableName, $columnName, $newColumnName, $columnType)
+    {
+        $sql = "ALTER TABLE $tableName CHANGE $columnName $newColumnName $columnType";
+        try {
+            $this->pdo->exec($sql);
+            echo json_encode(["result" => "success", "message" => "Column updated successfully"]);
+        } catch (PDOException $e) {
+            echo json_encode(["result" => "error", "message" => "Error updating column: " . $e->getMessage()]);
+        }
+    }
+
+    public function updateTableName($tableName, $newTableName)
+    {
+        $sql = "RENAME TABLE $tableName TO $newTableName";
+        try {
+            $this->pdo->exec($sql);
+            echo json_encode(["result" => "success", "message" => "Table name updated successfully"]);
+        } catch (PDOException $e) {
+            echo json_encode(["result" => "error", "message" => "Error updating table name: " . $e->getMessage()]);
+        }
+    }
+    public function updateDatabaseName($databaseName, $newDatabaseName)
+    {
+        $sql = "ALTER DATABASE $databaseName MODIFY NAME = $newDatabaseName";
+        try {
+            $this->pdo->exec($sql);
+            echo json_encode(["result" => "success", "message" => "Database name updated successfully"]);
+        } catch (PDOException $e) {
+            echo json_encode(["result" => "error", "message" => "Error updating database name: " . $e->getMessage()]);
         }
     }
 
@@ -187,45 +250,6 @@ class Database
         return $databases;
     }
 
-    public function getDatabaseTables($dbName)
-    {
-        $sql = "SHOW TABLES FROM $dbName";
-        $stmt = $this->pdo->query($sql);
-        $tables = $stmt->fetchAll(PDO::FETCH_COLUMN);
-        return $tables;
-    }
-
-
-
-    public function insertIntoTable2($tableName, $dbName, $data)
-    {
-        $columns = implode(', ', array_keys($data));
-        $values = implode("', '", array_values($data));
-        $sql = "INSERT INTO $tableName ($columns) VALUES ('$values')";
-        if ($this->pdo->exec($sql)) {
-            echo "Data inserted successfully";
-        } else {
-            echo "Error inserting data: " . $this->pdo->errorInfo();
-        }
-    }
-
-
-    public function modifyTable($tableName, $dbName, $columnName, $columnType)
-    {
-        $sql = "ALTER TABLE $dbName.$tableName MODIFY COLUMN $columnName $columnType";
-        if ($this->pdo->exec($sql)) {
-            echo "Table modified successfully";
-        } else {
-            $errorInfo = $this->pdo->errorInfo();
-            if ($errorInfo[0] !== '00000') {
-                echo "Error modifying table: " . implode(' ', $errorInfo);
-            }
-        }
-    }
-
-
-    
-    
 
     public function getPdo()
     {
