@@ -7,12 +7,18 @@ use App\Class\Database;
 
 $db = new Database($HOST, $USERNAME, $PASSWORD);
 $db->connect();
-$bdd = $db->getDatabase('aicha');
-var_dump($bdd);
-$db->useDatabase('testjson');
+$db->useDatabase('aicha');
+$db->insertRow('testtype', [
+    [
+        "number" => 65,
+        "courtext" => "clement",
+        "longtext" => "superpassword",
+        "created_at" => "2024-09-19",
+        "testFloat" => 5.5,
+    ]
+]);
 
-$tableCollection = $db->getTableCollection();
-var_dump($tableCollection);
+
 // $db->addColumn('testtabldzde222', 'testDrop', 'VARCHAR(255)');
 // $db->dropColumn('testtabldzde222', 'testDrop');
 

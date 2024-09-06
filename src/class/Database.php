@@ -148,7 +148,9 @@ class Database
 
     public function insertRow($tableName, $data)
     {
-        $columns = implode(', ', array_keys($data[0]));
+        $columns = implode(', ', array_map(function ($column) {
+            return "`$column`";
+        }, array_keys($data[0])));
         $values = [];
     
         foreach ($data as $row) {
@@ -157,7 +159,7 @@ class Database
         }
     
         $sql = "INSERT INTO $tableName ($columns) VALUES " . implode(', ', $values);
-    
+        echo $sql;
         try {
             $this->pdo->exec($sql);
             echo json_encode(["result" => "success", "message" => "Data inserted successfully"]);
@@ -165,6 +167,7 @@ class Database
             echo json_encode(["result" => "error", "message" => "Error inserting data: " . $e->getMessage()]);
         }
     }
+    
     public function getRow($tableName, $columnName, $value)
     {
         $sql = "SELECT * FROM $tableName WHERE $columnName = '$value'";
