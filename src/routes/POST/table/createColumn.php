@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db = new Database($HOST, $USERNAME, $PASSWORD);
     $db->connect();
     $db->useDatabase($data['databaseName']);
-    $db->addColumn($data['tableName'], $data['columnName'], $data['type']);
+    $db->addColumn($data['tableName'], $data['columnName'], $data['columnType']);
 } else {
     echo json_encode(["result" => "error", "message" => "Invalid request method"]);
 }

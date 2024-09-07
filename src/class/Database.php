@@ -163,6 +163,7 @@ class Database
         try {
             $this->pdo->exec($sql);
             echo json_encode(["result" => "success", "message" => "Data inserted successfully"]);
+            
         } catch (PDOException $e) {
             echo json_encode(["result" => "error", "message" => "Error inserting data: " . $e->getMessage()]);
         }

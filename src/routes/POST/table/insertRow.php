@@ -35,4 +35,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db->connect();
     $db->useDatabase($data['databaseName']);
     $db->insertRow($data['tableName'], $data['values']);
+    
 }

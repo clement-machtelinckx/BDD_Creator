@@ -2,4 +2,5 @@
 
 $HOST = 'localhost';
 $USERNAME = 'root';
-$PASSWORD = '';
+$PASSWORD = 'Clement2203$';
+// $PASSWORD = '';
