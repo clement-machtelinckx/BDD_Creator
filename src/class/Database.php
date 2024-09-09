@@ -159,7 +159,6 @@ class Database
         }
     
         $sql = "INSERT INTO $tableName ($columns) VALUES " . implode(', ', $values);
-        echo $sql;
         try {
             $this->pdo->exec($sql);
             echo json_encode(["result" => "success", "message" => "Data inserted successfully"]);
@@ -196,14 +195,18 @@ class Database
         }
     }
 
-    public function updateRow($tableName, $columnName, $value, $data)
+    public function updateRow($tableName, $columnName, $value, $newValues)
     {
+        $data = [$columnName => $value]; 
+        $data = array_merge($data, $newValues); 
+    
         $set = [];
         foreach ($data as $key => $val) {
-            $set[] = "$key = '$val'";
+            $set[] = "`$key` = '$val'";
         }
         $set = implode(', ', $set);
-        $sql = "UPDATE $tableName SET $set WHERE $columnName = '$value'";
+        $sql = "UPDATE `$tableName` SET $set WHERE `$columnName` = '$value'";
+        echo $sql;
         try {
             $this->pdo->exec($sql);
             echo json_encode(["result" => "success", "message" => "Row updated successfully"]);
@@ -211,6 +214,8 @@ class Database
             echo json_encode(["result" => "error", "message" => "Error updating row: " . $e->getMessage()]);
         }
     }
+    
+    
 
     public function updateColumn($tableName, $columnName, $newColumnName, $columnType)
     {

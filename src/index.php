@@ -7,15 +7,23 @@ use App\Class\Database;
 
 $db = new Database($HOST, $USERNAME, $PASSWORD);
 $db->connect();
-$db->useDatabase('aicha');
-$db->insertRow('testtype', [
-    [
-        "number" => 65,
-        "courtext" => "clement",
-        "longtext" => "superpassword",
-        "created_at" => "2024-09-19",
-        "testFloat" => 5.5,
-    ]
+$db->useDatabase('1dbbcreatortest');
+// $db->insertRow('oyooyoyo', [
+//     [
+//         "testINT" => 62,
+//         "testVAR" => "yoyo",
+//         "testText" => "superpassword",
+//         "testDate" => "2024-09-19",
+//         "testDECI" => 5.5,
+//     ]
+// ]);
+
+$db->updateRow('oyooyoyo', 'id', 3, [
+    "testINT" => 65,
+    "testVAR" => "mod",
+    "testText" => "p",
+    "testDate" => "2024-09-19",
+    "testDECI" => 5.5,
 ]);
 
 
