@@ -70,6 +70,7 @@ class Database
         $database = $stmt->fetch();
         return $database;
     }
+
     public function createTable($tableName, $columns)
     {
         $sql = "CREATE TABLE $tableName ($columns)";
