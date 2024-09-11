@@ -8,7 +8,8 @@ use App\Class\Database;
 // method : POST
 // body : raw : JSON
 // {
-//     "databaseName": "test"
+//     "databaseName": "test",
+//     "databaseNewName": "test"
 // }
 
 
@@ -26,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $db = new Database($HOST, $USERNAME, $PASSWORD);
     $db->connect();
 
+    $databaseNewName = $data["databaseNewName"];
     $databaseUnchangeName = $data["databaseName"];
     $databaseRestoreName = $data["databaseName"];
     $databaseRestoreName = str_replace("-", "", $databaseRestoreName);
@@ -38,10 +40,10 @@ if (!file_exists($filePath)) {
 }
 
 try {
-    $db->createDatabase($databaseRestoreName);
-    $db->useDatabase($databaseRestoreName);
+    $db->createDatabase($databaseNewName);
+    $db->useDatabase($databaseNewName);
 
-    $command = "mysql -u root -p{$PASSWORD} {$databaseRestoreName} < {$filePath} 2>&1";
+    $command = "mysql -u root -p{$PASSWORD} {$databaseNewName} < {$filePath} 2>&1";
     exec($command, $output, $returnVar);
 
     if ($returnVar !== 0) {
