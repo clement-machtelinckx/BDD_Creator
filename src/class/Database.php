@@ -250,7 +250,16 @@ class Database
         }
     }
 
-// _______________________________________________________________________________________________________________________
+    public function dumpDatabase($databaseName, $HOST, $USERNAME, $PASSWORD){
+
+        $date = date("Y-m-d");
+        $time = time();
+        $fileName = $databaseName . $date . $time . ".sql"; 
+        $dir = dirname(__FILE__) . '/dump/'. $fileName;
+        exec("mysqldump --user={$USERNAME} --password={$PASSWORD} --host={$HOST} {$databaseName} --result-file={$dir} 2>&1", $output);
+        return $output;
+    }
+
 
     public function getCollectionDatabases()
     {
