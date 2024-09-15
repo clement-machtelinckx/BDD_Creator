@@ -11,5 +11,7 @@
             "email": "clement.machtelinckx@laplateforme.io"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "phpunit/phpunit": "^11.3"
+    }
 }
