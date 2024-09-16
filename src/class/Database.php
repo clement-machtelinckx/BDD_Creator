@@ -269,6 +269,14 @@ class Database
         return $databases;
     }
 
+    public function getColumnName($tableName)
+    {
+        $sql = "SHOW COLUMNS FROM $tableName";
+        $stmt = $this->pdo->query($sql);
+        $columns = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        return $columns;
+    }
+
 
     public function getPdo()
     {
