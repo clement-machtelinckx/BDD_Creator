@@ -266,8 +266,18 @@ class Database
         $sql = "SHOW DATABASES";
         $stmt = $this->pdo->query($sql);
         $databases = $stmt->fetchAll(PDO::FETCH_COLUMN);
-        return $databases;
+        $filteredDatabases = [];
+        foreach ($databases as $databaseName) {
+            if ('information_schema' === $databaseName) continue;
+            if ('mysql' === $databaseName) continue;
+            if ('performance_schema' === $databaseName) continue;
+            if ('phpmyadmin' === $databaseName) continue;
+            if ('sys' === $databaseName) continue;
+            $filteredDatabases[] = $databaseName;
+        }
+        return $filteredDatabases;
     }
+    
 
     public function getColumnName($tableName)
     {

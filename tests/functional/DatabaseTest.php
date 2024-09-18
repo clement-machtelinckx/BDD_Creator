@@ -54,11 +54,15 @@ public function testAddColumn(): void
     $db->useDatabase('test');
     $db->addColumn('restaurant', 'name', 'VARCHAR(100)');
     $db->addColumn('restaurant', 'age', 'INT');
-    $db->addColumn('restaurant', 'float', 'DECIMAL(10,2)');
+    $db->addColumn('restaurant', 'number', 'DECIMAL(10,2)');
     $db->addColumn('restaurant', 'date', 'DATE');
     $db->addColumn('restaurant', 'description', 'TEXT');
     $db->addColumn('restaurant', 'todelete', 'TEXT');
-    // $this->assertContains('name', $db->getColumnName('restaurant'));
+    $this->assertContains('name', $db->getColumnName('restaurant'));
+    $this->assertContains('age', $db->getColumnName('restaurant'));
+    $this->assertContains('number', $db->getColumnName('restaurant'));
+    $this->assertContains('date', $db->getColumnName('restaurant'));
+    $this->assertContains('description', $db->getColumnName('restaurant'));
     // no assert for now
 }
 
@@ -83,6 +87,8 @@ public function testInsertRow(): void
         ['name' => 'Subway', 'age' => 25, 'date' => '2021-02-01', 'description' => 'Fast food'],
         ['name' => 'Pizza Hut', 'age' => 45, 'date' => '2021-03-01', 'description' => 'Fast food'],
     ]);
+
+    $this->assertContains('McDonalds', $db->getRow('restaurant', 'name', 'McDonalds'));
 }
 public function updateRow(): void
 {
@@ -91,11 +97,23 @@ public function updateRow(): void
     $db->useDatabase('test');
     $db->updateRow('restaurant', 'id', 1, ['name' => 'McGronalds', 'age' => 55, 'date' => '2022-03-01', 'description' => 'slow food']);
 }
-// public function testDropDatabase(): void
-// {
-//     $db = new Database('localhost','root','Clement2203$');
-//     $db->connect();
-//     $db->dropDatabase('test');
-//     $this->assertNotContains('test', $db->getCollectionDatabases());
-// }
+
+public function testDeleteRow():void
+{
+    $db = new Database('localhost', 'root', 'Clement2203$');
+    $db->connect();
+    $db->useDatabase('test');
+    $db->dropRow('restaurant', 'id', 1);
+    $this->assertNotContains('McGronalds', $db->getRow('restaurant', 'name', 'McGronalds'));
+
+}
+
+
+public function testDropDatabase(): void
+{
+    $db = new Database('localhost','root','Clement2203$');
+    $db->connect();
+    $db->dropDatabase('test');
+    $this->assertNotContains('test', $db->getCollectionDatabases());
+}
 }
