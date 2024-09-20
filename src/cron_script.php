@@ -32,8 +32,10 @@ foreach ($dbColection as $databaseName) {
     $time = time();
     $file = $databaseName . '_' . $time . ".sql";
     $filePath = $dir . '/' . $file;
-
-    $command = "mysqldump --user={$USERNAME} --password={$PASSWORD} --host={$HOST} {$databaseName} --result-file={$filePath} 2>&1";
+    
+    $logFile = 'C:\wamp64\www\BDD_Creator\src\cron_script.log';
+    $command = "mysqldump --user={$USERNAME} --password={$PASSWORD} --host={$HOST} {$databaseName} --result-file={$filePath} 2>&1 >> {$logFile}";
+    
     exec($command, $output, $returnVar);
 
 
