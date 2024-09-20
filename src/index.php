@@ -1,10 +1,9 @@
 <?php
 
-
-
 require_once '../vendor/autoload.php';
 require_once 'conf.php';
 use App\Class\Database;
+use Firebase\JWT\JWT;
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -14,14 +13,15 @@ $db = new Database($HOST, $USERNAME, $PASSWORD);
 $db->connect();
 $dbColection = $db->getCollectionDatabases();
 
-var_dump( $dbColection);
-// $db->useDatabase('test');
-// $db->insertRow('restaurant', ['name' => 'McDonalds', 'age' => 30, 'float' => 10.5, 'date' => '2021-03-01', 'description' => 'Fast food']);
-// $row = $db->getRow('restaurant', 'name', 'McDonalds');
-// var_dump($row);
-// $db->updateRow('restaurant', 'id', 1, ['name' => 'McGronalds', 'age' => 55, 'date' => '2022-03-01', 'description' => 'slow food']);
-// $db->insertRow('restaurant', [
-//     ['name' => 'McDonalds', 'age' => 30, 'date' => '2021-03-01', 'description' => 'Fast food'],
-//     // ['name' => 'Burger King', 'age' => 40, 'date' => '2020-05-15', 'description' => 'Fast food'],
-//     // add more rows as needed
-// ]);
+// Generate a JWT token
+$key = "your_secret_key"; // replace with your secret key
+$payload = array(
+    "iss" => "your_issuer", // replace with your issuer
+    "aud" => "your_audience", // replace with your audience
+    "iat" => time(),
+    "exp" => time() + 3600, // token expires in 1 hour
+);
+$jwt = JWT::encode($payload, $key, 'HS256');
+
+// Echo the JWT token
+echo $jwt;
