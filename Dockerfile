@@ -17,6 +17,7 @@ RUN composer install --no-dev
 RUN docker-php-ext-install pdo_mysql && apt-get update 
 
 # Install default-mysql-client
+
 # RUN apt-get install -y default-mysql-client
 
 
