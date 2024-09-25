@@ -1,5 +1,5 @@
 <?php
-
+// yoyoyoy
 namespace App\Class;
 use PDO;
 use PDOException;
@@ -276,6 +276,7 @@ class Database
             $filteredDatabases[] = $databaseName;
         }
         return $filteredDatabases;
+        // return $databases;
     }
     
 

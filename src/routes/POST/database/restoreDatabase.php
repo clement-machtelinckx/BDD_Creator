@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $databaseRestoreName = str_replace("-", "", $databaseRestoreName);
     $databaseRestoreName = str_replace(".sql", "", $databaseRestoreName);
 
-    $filePath = "C:/wamp64/www/BDD_Creator/src/dump/" . $databaseUnchangeName;
+    $filePath = "/var/www/html/src/dump" . $databaseUnchangeName;
 
 if (!file_exists($filePath)) {
     die("File not found: " . $filePath);
